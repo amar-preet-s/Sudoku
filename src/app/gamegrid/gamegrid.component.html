@@ -1,0 +1,27 @@
+<div class="difficulty">
+    <label>Difficulty Level:</label>
+    <select [(ngModel)]="selectedDifficulty" (change)="generatePuzzle()">
+      <option value="beginner">Beginner</option>
+      <option value="medium">Medium</option>
+      <option value="hard">Hard</option>
+    </select>
+  </div>
+  
+<div class="grid">
+    <table>
+      <tr *ngFor="let row of puzzle;index as i">
+        <td *ngFor="let cell of row;index as j">
+          <input class="input" type="number" [(ngModel)]="cell.value" [readonly]= "cell.isFixed" [ngClass]="{'fix':cell.isFixed,'invalid':!cell.isValid}" (change)="checkSolution(puzzle,i,j,cell.value)">
+        </td>
+      </tr>
+    </table>
+
+    <ins class="adsbygoogle"
+      style="display:block;height:600px;width:300px;"
+      data-ad-client="ca-pub-5710394044489360"
+      data-ad-slot="9552887273"
+      data-ad-format="auto"
+      data-full-width-responsive="true"></ins>
+    
+  </div>
+  
