@@ -14,9 +14,12 @@ interface Cell {
 })
 export class GamegridComponent {
 
+  bulbImageUrl = './assets/images/bulb.png';
+  activeInput: number[] = [-1,-1];
+  hints:number[] = [];
   puzzle: Cell[][];
   selectedDifficulty: string = 'beginner';
-
+  cell: number[] = [-1,-1];
   constructor() {
     this.puzzle = this.initializePuzzle();
   }
@@ -71,24 +74,24 @@ export class GamegridComponent {
 
 
   
-checkSolution(grid: Cell[][], row: number, col: number, value: number):any {
+checkSolution(grid: Cell[][], row: number, col: number, value: number){
+    grid[row][col].isValid = this.isValid(grid,row,col,value);
+}
 
+isValid(grid:Cell[][],row:number,col:number,value:number):boolean{
   if(value<1 || value>9){
-    grid[row][col].isValid = false;
-    return;
+    return false;
   }
  
   for (let c = 0; c < 9; c++) {
     if (c!=col && grid[row][c].value === value) {
-      grid[row][col].isValid = false;
-      return;
+      return false;
     }
   }
 
   for (let r = 0; r < 9; r++) {
     if (r!=row && grid[r][col].value === value) {
-      grid[row][col].isValid = false;
-      return;
+      return false;
     }
   }
 
@@ -97,18 +100,58 @@ checkSolution(grid: Cell[][], row: number, col: number, value: number):any {
   for (let r = startRow; r < startRow + 3; r++) {
     for (let c = startCol; c < startCol + 3; c++) {
       if ((r!=row || c!=col) && grid[r][c].value === value) {
-        grid[row][col].isValid = false;
-        return;
+        return false;
       }
     }
   }
 
-  grid[row][col].isValid = true;
+  return true;
 }
 
-  solve() {
-    // Implement your logic to solve the Sudoku puzzle
+
+
+  solve(){
+
+    const arrayList: number[] = [];
+    for(let i=0;i<9;i++){
+        for(let j=0;j<9;j++){
+            if(!this.puzzle[i][j].isFixed)
+              arrayList.push(i*9+j);
+
+        }
+    }
+    this.solveCells(0,9,9,arrayList);
   }
 
+  solveCells(idx:number,n:number,m:number,l:number[]):boolean{
+    if(idx == l.length){
+      return true;
+    }
+    let r = Math.floor(l[idx]/n);
+    let c = l[idx]%m;
+    for(let num=1;num<=9;num++){
+        if(this.isValid(this.puzzle,r,c, num)){
+            this.puzzle[r][c].value = num;
+            if(this.solveCells(idx+1,n, m,l)) return true;
+            this.puzzle[r][c].value = 0;
+        }
+    }
+    return false;
+  }
 
+  activateFloatingHint(i: number,j:number): void {
+    this.activeInput[0] = i;
+    this.activeInput[1] = j;
+  }
+
+  displayHints(row:number,col:number){
+    this.hints = [];
+    for(let i = 0;i<=9;i++){
+      if(this.isValid(this.puzzle,row,col,i)){
+        this.hints.push(i);
+      }
+    
+    }
+
+  }
 }

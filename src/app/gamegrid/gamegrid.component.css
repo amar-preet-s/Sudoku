@@ -4,25 +4,39 @@
     width: 100%;
     justify-content: center;
     align-items: center;
+    margin-top: 1rem;
     }
   
   table {
-    margin-right: 5em;
     border-collapse: collapse;
     width: 540px;
     height: 540px;
     padding: 0px;
   }
-  table tr{
-    width: 100%;
-    height: 60px;
-  }
+
   table td {
-    max-width: 9%;
-    height: 100%;
+    width: 9%;
     text-align: center;
     border: 1px solid black;
     padding: 0px;
+    position: relative;
+  }
+
+  table tr:nth-child(3n+1) td {
+    border-top: 2px solid #000;
+  }
+  
+  table td:nth-child(3n+1) {
+    border-left: 2px solid #000;
+  }
+  
+  /* Add thicker borders for outer cells */
+  table tr:nth-child(3n + 3) td {
+    border-bottom: 2px solid #000;
+  }
+  
+  table td:nth-child(3n + 3) {
+    border-right: 2px solid #000;
   }
 
   .input{
@@ -47,7 +61,7 @@ input::-webkit-inner-spin-button {
     background-color: lightgray;
 }
 
-.difficulty {
+.difficulty{
     margin-top: 10px;
     font-size: 25px;
     font-weight: 600;
@@ -67,4 +81,67 @@ input::-webkit-inner-spin-button {
 .invalid{
   background-color: red;
   color:white;
+}
+
+.button {
+  padding: 10px 20px;
+  font-size: 16px;
+  text-align: center;
+  text-decoration: none;
+  background-color: #1abc9c;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 550;
+  margin-left: 1rem;
+  float: right;
+  
+}
+
+.button:hover {
+  background-color: #08997c;
+}
+
+.button:active{
+  box-shadow: 0px 2px 2px 0px gray;
+}
+
+.floating-div {
+  position: absolute;
+  width:1rem;
+  height: 1rem;
+  z-index: 2;
+  overflow-y: hidden;
+  top: 1px;
+}
+
+
+.floating-div img {
+  width: 100%;
+  height: 100%;
+
+}
+
+.hints{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  margin-top: 1%;
+}
+
+.hints td{
+  border: collapse;
+  width: 30px;
+  height: 30px;
+}
+
+.hints input{
+  width: 100%;
+  height: 100%;
+  border:2px;
+  border-radius: 10px;
+  background-color: rgb(176, 171, 171);
 }

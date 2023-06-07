@@ -5,23 +5,31 @@
       <option value="medium">Medium</option>
       <option value="hard">Hard</option>
     </select>
-  </div>
+    <button class="button" (click)="solve()">Solution</button>
+  
+</div>
   
 <div class="grid">
     <table>
       <tr *ngFor="let row of puzzle;index as i">
         <td *ngFor="let cell of row;index as j">
-          <input class="input" type="number" [(ngModel)]="cell.value" [readonly]= "cell.isFixed" [ngClass]="{'fix':cell.isFixed,'invalid':!cell.isValid}" (change)="checkSolution(puzzle,i,j,cell.value)">
+          <input class="input" [id]="'input_' + i+'_'+j" type="number" [(ngModel)]="cell.value" [readonly]= "cell.isFixed" [ngClass]="{'fix':cell.isFixed,'invalid':!cell.isValid}" (change)="checkSolution(puzzle,i,j,cell.value)"  (focus)="activateFloatingHint(i,j)" (pointerleave)="hints = []" #input>
+          <div class="floating-div" [hidden]="!(activeInput[0] == i && activeInput[1] == j && !this.puzzle[i][j].isFixed)" (click)="displayHints(i,j)"><img [src]="bulbImageUrl" alt="Bulb Image"></div>
         </td>
       </tr>
     </table>
-
-    <ins class="adsbygoogle"
+    <!-- <ins class="adsbygoogle"
       style="display:block;height:600px;width:300px;"
       data-ad-client="ca-pub-5710394044489360"
       data-ad-slot="9552887273"
       data-ad-format="auto"
-      data-full-width-responsive="true"></ins>
-    
-  </div>
+      data-full-width-responsive="true"></ins> -->
+</div>
+<div class="hints">
+  <tr>
+    <td *ngFor="let hint of hints;index as h">
+      <input class="input" [value]="hint" [hidden]="hint==null"  readonly>
+    </td>
+  </tr>
+</div>
   
